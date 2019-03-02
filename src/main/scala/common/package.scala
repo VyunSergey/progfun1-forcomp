@@ -21,7 +21,7 @@ package object common {
    *
    * corresponds to ~/b/c
    */
-  def subFile(file: File, children: String*) = {
+  def subFile(file: File, children: String*): File = {
     children.foldLeft(file)((file, child) => new File(file, child))
   }
 
@@ -32,7 +32,7 @@ package object common {
   def resourceAsStreamFromSrc(resourcePath: List[String]): Option[java.io.InputStream] = {
     val classesDir = new File(getClass.getResource(".").toURI)
     val projectDir = classesDir.getParentFile.getParentFile.getParentFile.getParentFile
-    val resourceFile = subFile(projectDir, ("src" :: "main" :: "resources" :: resourcePath): _*)
+    val resourceFile = subFile(projectDir, "src" :: "main" :: "resources" :: resourcePath: _*)
     if (resourceFile.exists)
       Some(new java.io.FileInputStream(resourceFile))
     else
